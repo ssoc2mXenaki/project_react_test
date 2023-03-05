@@ -5,12 +5,8 @@ import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-<<<<<<< Updated upstream
 import Col from 'react-bootstrap/Col'
 import Modal from 'react-bootstrap/Modal';
-=======
-// import CardDeck from 'react-bootstrap/CardDeck';
->>>>>>> Stashed changes
 import axios from 'axios';
 
 library.add(faCheckCircle, faTimesCircle);
@@ -45,11 +41,7 @@ function Courses() {
   }
 
   return (
-<<<<<<< Updated upstream
     <Col style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
-=======
-    <Card style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
->>>>>>> Stashed changes
       {data.map((item, index) => (
         <Card key={index} style={{ backgroundColor: 'white', width: 'calc(50% - 10px)', marginRight: '10px', marginBottom: '10px' }}>
           <Card.Img variant="top" src={item.imagePath} alt={item.title} />
@@ -74,7 +66,6 @@ function Courses() {
           </Card.Body>
         </Card>
       ))}
-<<<<<<< Updated upstream
       {selectedData && (
         <Modal show={showModal} onHide={handleCloseModal}>
           <Card style={{ backgroundColor: 'white' }}>
@@ -103,9 +94,6 @@ function Courses() {
         </Modal>
       )}
     </Col>
-=======
-    </Card>
->>>>>>> Stashed changes
   );
 }
 
