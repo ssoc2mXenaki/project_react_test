@@ -15,7 +15,8 @@ library.add(faCheck, faXmark, faCircleInfo);
 
 const Dashboard = () => {
   const [stat, setStats] = useState([]);
-  useEffect(() => getStats(), []);
+
+  // useEffect(() => getStats(), []);
 
   const getStats=()=> {
     axios.get('http://localhost:3001/stats').then(response => {
@@ -25,14 +26,23 @@ const Dashboard = () => {
   }
 
   const [course, setCourses] = useState([]);
-  useEffect(() => getCourses(), []);
+  
+  useEffect(() => (getCourses(), []), (getStats(), []));
+
+  
 
   const getCourses=()=> {
-    axios.get('http://localhost:3001/courses').then(response => {
-          const myCourses = response.data;
-          setCourses(myCourses);
-        });
+   axios.get('http://localhost:3001/courses').then(response => {
+         const myCourses = response.data;
+         setCourses(myCourses);
+       });
   }
+  console.log("to course einai:", course)
+  
+  const sortedCourse = course.sort((a, b) => Date.parse(a.dates.start_date) - Date.parse(b.dates.start_date));
+  console.log("to sorted course einai:", sortedCourse );
+  
+  console.log("ta 5 courses einai:", course.slice(0,5));
 
     return (
     <>
@@ -76,7 +86,7 @@ const Dashboard = () => {
           
             <tbody>
               
-            {course.map(courses => {
+            {course.slice(0,5).map(courses => {
              return (<tr key={courses.id}>
                 <td><FontAwesomeIcon icon="fa-solid fa-circle-info" /></td>
                 <td>{courses.title}</td>
