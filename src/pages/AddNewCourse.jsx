@@ -3,6 +3,7 @@ import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
+import { uuid } from "uuidv4";
 
 const initialInputsState = {
   title: "",
@@ -21,25 +22,24 @@ const addNewCourse = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // alert("yo submitted!");
+
     axios
-      .post("http://localhost:3001/courses/", [
-        {
-          title: formInputs.title,
-          imagePath: formInputs.imagePath,
-          price: {
-            early_bird: formInputs.earlyBid,
-            normal: formInputs.normalPrice,
-          },
-          dates: {
-            start_date: formInputs.startDate,
-            end_date: formInputs.endDate,
-          },
-          duration: formInputs.duration,
-          online: formInputs.onlineChecked,
-          description: formInputs.description,
+      .post("http://localhost:3001/courses/", {
+        id: uuid(),
+        title: formInputs.title,
+        imagePath: formInputs.imagePath,
+        price: {
+          early_bird: +formInputs.earlyBid,
+          normal: +formInputs.normalPrice,
         },
-      ])
+        dates: {
+          start_date: formInputs.startDate,
+          end_date: formInputs.endDate,
+        },
+        duration: formInputs.duration,
+        online: formInputs.onlineChecked,
+        description: formInputs.description,
+      })
       .then((response) => {
         setFormInputs(initialInputsState);
       });
