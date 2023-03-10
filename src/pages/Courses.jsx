@@ -5,9 +5,10 @@ import { faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import CardDeck from 'react-bootstrap/CardDeck'
+import Col from 'react-bootstrap/Col'
 import Modal from 'react-bootstrap/Modal';
 import axios from 'axios';
+import moment  from 'moment';
 
 library.add(faCheckCircle, faTimesCircle);
 
@@ -41,13 +42,13 @@ function Courses() {
   }
 
   return (
-    <CardDeck style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
+    <Col style={{ maxWidth: '900px', margin: '0 auto', display: 'flex', justifyContent: 'center', flexWrap: 'wrap' }}>
       {data.map((item, index) => (
         <Card key={index} style={{ backgroundColor: 'white', width: 'calc(50% - 10px)', marginRight: '10px', marginBottom: '10px' }}>
           <Card.Img variant="top" src={item.imagePath} alt={item.title} />
           <Card.Body>
             <Card.Title><h4>{item.title}</h4></Card.Title>
-            <Card.Text><strong>Dates:</strong> <i>{item.dates.start_date}</i> - <i>{item.dates.end_date}</i></Card.Text>
+            <Card.Text><strong>Dates:</strong> <i>{moment(item.dates.start_date).format('DD/MM/YYYY')} - {moment(item.dates.end_date).format('DD/MM/YYYY')}</i></Card.Text>
             <Card.Text><strong>Duration: </strong>{item.duration}</Card.Text>
             <Card.Text><strong>Price: </strong> <i>(Regular)</i> {item.price.normal}  € <strong>|</strong> <i>(Early Bird Discount)</i> {item.price.early_bird}  €</Card.Text>
             <Card.Text style={{ display: 'flex', alignItems: 'center' }}>
@@ -72,7 +73,7 @@ function Courses() {
             <Card.Img variant="top" src={selectedData.imagePath} alt={selectedData.title} />
             <Card.Body>
               <Card.Title><h4>{selectedData.title}</h4></Card.Title>
-              <Card.Text><strong>Dates:</strong> <i>{selectedData.dates.start_date}</i> - <i>{selectedData.dates.end_date}</i></Card.Text>
+              <Card.Text><strong>Dates:</strong> <i>{moment(selectedData.dates.start_date).format('DD/MM/YYYY')} - {moment(selectedData.dates.end_date).format('DD/MM/YYYY')}</i></Card.Text>
               <Card.Text><strong>Duration: </strong>{selectedData.duration}</Card.Text>
               <Card.Text>{selectedData.description}</Card.Text>
               <Card.Text><strong>Price: </strong> <i>(Regular)</i> {selectedData.price.normal}  € <strong>|</strong> <i>(Early Bird Discount)</i> {selectedData.price.early_bird}  €</Card.Text>
@@ -88,12 +89,12 @@ function Courses() {
               </Card.Text>
             </Card.Body>
             <Card.Footer>
-              <Button variant="secondary" onClick={handleCloseModal}>Close</Button>
+              <Button variant="dark" style={{ backgroundColor: 'black' }} onClick={handleCloseModal}>Close</Button>
             </Card.Footer>
           </Card>
         </Modal>
       )}
-    </CardDeck>
+    </Col>
   );
 }
 
