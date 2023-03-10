@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { uuid } from "uuidv4";
 import Container from "react-bootstrap/Container";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
-import axios from "axios";
-import { uuid } from "uuidv4";
 
+// for the initial render
 const initialInputsState = {
   title: "",
   duration: "",
@@ -17,15 +19,39 @@ const initialInputsState = {
   normalPrice: 0,
 };
 
-const addNewCourse = () => {
+const EditCourse = () => {
+  const navigate = useNavigate();
   const [formInputs, setFormInputs] = useState(initialInputsState);
+  const location = useLocation();
+  //   console.log(location.state);
+
+  useEffect(() => {
+    // console.log("http://localhost:3001/courses/" + location.state);
+    axios
+      .get("http://localhost:3001/courses/" + location.state)
+      .then((response) => {
+        const myDetails = response.data;
+        // console.log(myDetails);
+        setFormInputs({
+          title: myDetails.title,
+          duration: myDetails.duration,
+          imagePath: myDetails.imagePath,
+          onlineChecked: myDetails.online,
+          description: myDetails.description,
+          startDate: myDetails.dates.start_date,
+          endDate: myDetails.dates.end_date,
+          earlyBid: myDetails.price.early_bird,
+          normalPrice: myDetails.price.normal,
+        });
+      });
+  }, []);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     axios
-      .post("http://localhost:3001/courses/", {
-        id: uuid(),
+      .put("http://localhost:3001/courses/" + location.state, {
+        id: location.state.id,
         title: formInputs.title,
         imagePath: formInputs.imagePath,
         price: {
@@ -41,7 +67,7 @@ const addNewCourse = () => {
         description: formInputs.description,
       })
       .then((response) => {
-        setFormInputs(initialInputsState);
+        navigate("/");
       });
   }
 
@@ -52,7 +78,7 @@ const addNewCourse = () => {
   return (
     <Container>
       <Form onSubmit={handleSubmit}>
-        <h1 className="mt-4">Add Course</h1>
+        <h1 className="mt-4">Edit Course</h1>
         <Form.Group className="mb-3" controlId="">
           <Form.Label>Title</Form.Label>
           <Form.Control
@@ -150,11 +176,11 @@ const addNewCourse = () => {
 
         <hr />
         <Button variant="primary" type="submit">
-          Add Course
+          Save Changes
         </Button>
       </Form>
     </Container>
   );
 };
 
-export default addNewCourse;
+export default EditCourse;
